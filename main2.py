@@ -6,11 +6,12 @@ class Runner():
     __customes = ('turtle', 'fish', 'prawn', 'moray', 'octopus')
     
     
-    def __init__(self, x=0, y=0, custome = 'turtle'):
+    def __init__(self, x=0, y=0):
+        ixCustome = random.randint(0, 4)
         
-        self.custome = pygame.image.load('images/turtle.png'.format(custome))
+        self.custome = pygame.image.load('images/{}.png'.format(self.__customes[ixCustome]))
         self.position = [x, y]
-        self.name = custome
+        self.name = ''
         
     def avanzar(self):
         self.position[0] += random.randint(1,12)
@@ -41,6 +42,10 @@ class Game():
         
         runners.append(Runner(self.__StarLine, 240)) 
         '''
+    def close(self):
+        pygame.quit()
+        sys.exit()
+    
     def competir(self):
         gameOver = False
         while not gameOver:
@@ -50,10 +55,9 @@ class Game():
             
             for activeRunner in self.runners:       
                 activeRunner.avanzar()
-            
-            if self.runners[0].position[0] >= self.__finishLine:
-                print('{} ha ganado la carrera'.format(self.runners[0].name))
-                gameOver = True
+                if activeRunner.position[0] >= self.__finishLine:
+                    print('{} ha ganado la carrera'.format(activeRunner.name))
+                    gameOver = True
                 
                     
             self.__screen.blit(self.__background, (0, 0))
@@ -68,10 +72,13 @@ class Game():
             
             for runner in self.runners:
                 self.__screen.blit(runner.custome, runner.position)
-            pygame.display.flip()
             
-        pygame.quit()
-        sys.exit()
+            pygame.display.flip()
+        
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.close()
             
 
 
