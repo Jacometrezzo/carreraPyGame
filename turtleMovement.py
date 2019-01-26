@@ -1,4 +1,7 @@
 import pygame, sys
+from pygame.locals import *
+
+import random
 
 class Runner():
     __customes = ('turtle', 'fish', 'prawn', 'moray', 'octopus')
@@ -7,7 +10,7 @@ class Runner():
     def __init__(self, x=0, y=0):
         ixCustome = random.randint(0, 4)
         
-        self.custome = pygame.image.load('image/{}.png'.format(self.__customes[ixCustome]))
+        self.custome = pygame.image.load('images/{}.png'.format(self.__customes[ixCustome]))
         self.position = [x, y]
         self.name = ''
         
@@ -37,11 +40,11 @@ class Game():
                         self.runner.position[1] = self.runner.position[1] + 5
                         #son lo mismo
                         '''
-                        self.runner.position[1] += 5
+                        self.runner.position[1] -= 5
                         
                     elif event.key == K_DOWN:
                         #Mover hacia abajo runner
-                        self.runner.position[1] -= 5
+                        self.runner.position[1] += 5
                     elif event.key == K_LEFT:
                         #Mover hacia la izquierda
                         self.runner.position[0] -= 5
@@ -56,5 +59,8 @@ class Game():
             self.__screen.blit(self.runner.custome, self.runner.position)
             
             pygame.display.flip()
-                    
-                    
+            
+if __name__ == '__main__':
+    game = Game()
+    pygame.init()
+    game.start()
